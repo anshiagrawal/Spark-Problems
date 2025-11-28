@@ -1,0 +1,15 @@
+from pyspark.sql import SparkSession
+from pyspark.sql import functions as F
+from pyspark.sql import Window as W
+from pyspark.sql.functions import when, col
+
+
+spark = SparkSession.builder.appName('Spark Playground').getOrCreate()
+
+df_result= employees.join(payroll,on ="employee_id")
+condition = when(col("hours_worked")> 40,40*(col("hourly_rate"))+(col("hours_worked")-40)*col("hourly_rate")*1.5 ).otherwise(col("hourly_rate")*col("hours_worked"))
+df_result_added = df_result.withColumn("pay",condition)
+# Write the logic and display the final dataframe
+
+display(df_result_added.select("employee_id","name","pay","position"))
+    
